@@ -17,7 +17,7 @@
 ``kubectl expose deployment friendlyname --port=80 --target-port=80 --type=LoadBalancer --name=friendlyname-lb``
 
 # Overview of the Flow
-:::mermaid
+```mermaidjs
 sequenceDiagram
     participant A as "Login Adapter"
     participant Z as "Agentless"
@@ -34,4 +34,4 @@ sequenceDiagram
     Z ->> B: 302 /POST {resumePath}?REF={DropoffRefID} 
     note left of B: Resume path came from the initial POST to the agentless. The dropoff RefID came from the drop off RefID.
 B ->> B: User continues on their flow
-:::
+```
