@@ -17,21 +17,4 @@
 ``kubectl expose deployment friendlyname --port=80 --target-port=80 --type=LoadBalancer --name=friendlyname-lb``
 
 # Overview of the Flow
-```mermaidjs
-sequenceDiagram
-    participant A as "Login Adapter"
-    participant Z as "Agentless"
-    participant B as "Policy Contract"
-    participant otc as "PF API"
-    A -> Z: /POST RefID = 123 ResumePath=/ext/ABC/
-    note left of Z: RefID is a one-time token
-    Z ->> otc: GET /ext/ref/pickup?REF={RefID}
-    otc -->> Z: Return JSON payload of current state of user
-    Z ->> Z: Do something with this information
-    Z ->> Z: Perhaps show the user some UI
-    Z ->> otc: Send information about the identity back to Ping Identity /POST /ext/ref/dropoff
-    otc -->> Z: Return a dropoff refID {DropoffRefID}
-    Z ->> B: 302 /POST {resumePath}?REF={DropoffRefID} 
-    note left of B: Resume path came from the initial POST to the agentless. The dropoff RefID came from the drop off RefID.
-B ->> B: User continues on their flow
-```
+[![](https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgcGFydGljaXBhbnQgWiBhcyBBZ2VudGxlc3MgQWRhcHRlclxuICAgIHBhcnRpY2lwYW50IEIgYXMgUG9saWN5IENvbnRyYWN0XG4gICAgcGFydGljaXBhbnQgb3RjIGFzIFBpbmcgRmVkZXJhdGUgQVBJXG4gICAgQiAtPj4gWjogL1BPU1QgUmVmSUQgPSB7UGlja3VwUmVmSUR9IFJlc3VtZVBhdGg9e3Jlc3VtZVBhdGh9XG4gICAgbm90ZSBsZWZ0IG9mIFo6IFJlZklEIGlzIGEgb25lLXRpbWUgdG9rZW5cbiAgICBaIC0-PiBvdGM6IEdFVCAvZXh0L3JlZi9waWNrdXA_UkVGPXtQaWNrdXBSZWZJRH1cbiAgICBvdGMgLS0-PiBaOiBSZXR1cm4gSlNPTiBwYXlsb2FkIG9mIGN1cnJlbnQgc3RhdGUgb2YgdXNlclxuICAgIFogLT4-IFo6IERvIHNvbWV0aGluZyB3aXRoIHRoaXMgaW5mb3JtYXRpb25cbiAgICBaIC0-PiBaOiBQZXJoYXBzIHNob3cgdGhlIHVzZXIgc29tZSBVSVxuICAgIFogLT4-IG90YzogU2VuZCBpbmZvcm1hdGlvbiBhYm91dCB0aGUgaWRlbnRpdHkgYmFjayB0byBQaW5nIElkZW50aXR5IC9QT1NUIC9leHQvcmVmL2Ryb3BvZmZcbiAgICBvdGMgLS0-PiBaOiBSZXR1cm4gYSBkcm9wb2ZmIHJlZklEIHtEcm9wb2ZmUmVmSUR9XG4gICAgWiAtPj4gQjogMzAyIC9QT1NUIHtyZXN1bWVQYXRofT9SRUY9e0Ryb3BvZmZSZWZJRH0gXG4gICAgbm90ZSBsZWZ0IG9mIEI6IFJlc3VtZSBwYXRoIGNhbWUgZnJvbSB0aGUgaW5pdGlhbCBQT1NUIHRvIHRoZSBhZ2VudGxlc3MuIFRoZSBkcm9wb2ZmIFJlZklEIGNhbWUgZnJvbSB0aGUgZHJvcCBvZmYgUmVmSUQuXG4gICAgQiAtPj4gQjogVXNlciBjb250aW51ZXMgb24gdGhlaXIgZmxvdyIsIm1lcm1haWQiOnsidGhlbWUiOiJkYXJrIn0sInVwZGF0ZUVkaXRvciI6dHJ1ZSwiYXV0b1N5bmMiOnRydWUsInVwZGF0ZURpYWdyYW0iOmZhbHNlfQ)](https://mermaid.live/edit#eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgcGFydGljaXBhbnQgWiBhcyBBZ2VudGxlc3MgQWRhcHRlclxuICAgIHBhcnRpY2lwYW50IEIgYXMgUG9saWN5IENvbnRyYWN0XG4gICAgcGFydGljaXBhbnQgb3RjIGFzIFBpbmcgRmVkZXJhdGUgQVBJXG4gICAgQiAtPj4gWjogL1BPU1QgUmVmSUQgPSB7UGlja3VwUmVmSUR9IFJlc3VtZVBhdGg9e3Jlc3VtZVBhdGh9XG4gICAgbm90ZSBsZWZ0IG9mIFo6IFJlZklEIGlzIGEgb25lLXRpbWUgdG9rZW5cbiAgICBaIC0-PiBvdGM6IEdFVCAvZXh0L3JlZi9waWNrdXA_UkVGPXtQaWNrdXBSZWZJRH1cbiAgICBvdGMgLS0-PiBaOiBSZXR1cm4gSlNPTiBwYXlsb2FkIG9mIGN1cnJlbnQgc3RhdGUgb2YgdXNlclxuICAgIFogLT4-IFo6IERvIHNvbWV0aGluZyB3aXRoIHRoaXMgaW5mb3JtYXRpb25cbiAgICBaIC0-PiBaOiBQZXJoYXBzIHNob3cgdGhlIHVzZXIgc29tZSBVSVxuICAgIFogLT4-IG90YzogU2VuZCBpbmZvcm1hdGlvbiBhYm91dCB0aGUgaWRlbnRpdHkgYmFjayB0byBQaW5nIElkZW50aXR5IC9QT1NUIC9leHQvcmVmL2Ryb3BvZmZcbiAgICBvdGMgLS0-PiBaOiBSZXR1cm4gYSBkcm9wb2ZmIHJlZklEIHtEcm9wb2ZmUmVmSUR9XG4gICAgWiAtPj4gQjogMzAyIC9QT1NUIHtyZXN1bWVQYXRofT9SRUY9e0Ryb3BvZmZSZWZJRH0gXG4gICAgbm90ZSBsZWZ0IG9mIEI6IFJlc3VtZSBwYXRoIGNhbWUgZnJvbSB0aGUgaW5pdGlhbCBQT1NUIHRvIHRoZSBhZ2VudGxlc3MuIFRoZSBkcm9wb2ZmIFJlZklEIGNhbWUgZnJvbSB0aGUgZHJvcCBvZmYgUmVmSUQuXG4gICAgQiAtPj4gQjogVXNlciBjb250aW51ZXMgb24gdGhlaXIgZmxvdyIsIm1lcm1haWQiOiJ7XG4gIFwidGhlbWVcIjogXCJkYXJrXCJcbn0iLCJ1cGRhdGVFZGl0b3IiOnRydWUsImF1dG9TeW5jIjp0cnVlLCJ1cGRhdGVEaWFncmFtIjpmYWxzZX0)
